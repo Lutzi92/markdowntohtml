@@ -19,5 +19,14 @@ class HTMLNode():
     
 
 class LeafNode(HTMLNode):
-    def __init__(self, tag=None, value, children=None, props=None):
-        super().__init__(tag, value, children, props)
+    def __init__(self, tag=None, value=None, children=None, props=None):
+        super().__init__(tag, value, props)
+
+    def to_html(self):
+        html_string =""
+        if self.value==None:
+            raise ValueError
+        if self.tag==None:
+            return self.value
+        html_string= "<"+self.tag+">"+self.props_to_html()+" <"+self.tag+">"
+        return html_string
