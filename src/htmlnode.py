@@ -39,7 +39,11 @@ class ParentNode(HTMLNode):
             raise ValueError("Invalid HTML: no tag")
         if self.children==None:
             raise ValueError("Invalid HTML: no children")
+        child_string = ""
         for child in self.children:
-            return child.to_html()
+            child_string += f"{child.to_html()}"
 
-        return f"<{self.tag}> </{self.tag}>"
+        return f"<{self.tag}>{child_string}</{self.tag}>"
+    
+def text_node_to_html_node(text_node):
+    if text_node.text_type == "text" or
