@@ -34,6 +34,7 @@ class LeafNode(HTMLNode):
 class ParentNode(HTMLNode):
     def __init__(self, tag, children, props=None):
         super().__init__(tag, None, children, props)
+    
     def to_html(self):
         if self.tag==None:
             raise ValueError("Invalid HTML: no tag")
@@ -41,23 +42,7 @@ class ParentNode(HTMLNode):
             raise ValueError("Invalid HTML: no children")
         child_string = ""
         for child in self.children:
-            child_string += f"{child.to_html()}"
-
-        return f"<{self.tag}>{child_string}</{self.tag}>"
+            child_string += child.to_html()
+            #child_string += f"{child.to_html()}"
+        return f"<{self.tag}{self.props_to_html()}>{child_string}</{self.tag}>"
     
-def text_node_to_html_node(text_node):
-    match text_node.text_type:
-        case "text":
-            return LeafNode(None,text_node.text,)
-        case "bold":
-            return LeafNode("b",text_node.text,)
-        case "italic":
-            return LeafNode("i", text_node.text,)
-        case "code":
-            return LeafNode("code",text_node.text,)
-        case "link":
-            return LeafNode("a",)
-        case "image":
-            pass
-        case _:
-            raise Exception("Falsch")
