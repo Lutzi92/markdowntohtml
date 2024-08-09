@@ -46,4 +46,18 @@ class ParentNode(HTMLNode):
         return f"<{self.tag}>{child_string}</{self.tag}>"
     
 def text_node_to_html_node(text_node):
-    if text_node.text_type == "text" or
+    match text_node.text_type:
+        case "text":
+            return LeafNode(None,text_node.text,)
+        case "bold":
+            return LeafNode("b",text_node.text,)
+        case "italic":
+            return LeafNode("i", text_node.text,)
+        case "code":
+            return LeafNode("code",text_node.text,)
+        case "link":
+            return LeafNode("a",)
+        case "image":
+            pass
+        case _:
+            raise Exception("Falsch")
