@@ -10,7 +10,7 @@ from textnode import (
     text_type_link,
     text_node_to_html_node,
 )
-from split_delimiter import split_nodes_delimiter, extract_markdown_images,extract_markdown_links, split_nodes_image, split_nodes_link
+from split_delimiter import split_nodes_delimiter, extract_markdown_images,extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes
 
 class test_delimiter(unittest.TestCase):
     def testcase1(self):
@@ -56,7 +56,7 @@ class test_splitLink(unittest.TestCase):
         node = TextNode("This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",text_type_text,)
 
         new_nodes = split_nodes_link([node])
-        print(new_nodes)
+        #print(new_nodes)
     def test_extract_markdown_images(self):
         matches = extract_markdown_images(
             "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
@@ -136,3 +136,5 @@ class test_splitLink(unittest.TestCase):
             ],
             new_nodes,
         )
+    def test_text_to_testnode(self):
+        print(text_to_textnodes("This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"))
