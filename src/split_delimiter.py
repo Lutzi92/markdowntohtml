@@ -101,3 +101,8 @@ def text_to_textnodes(text):
     start_list= split_nodes_delimiter(start_list,"`", text_type_code)
 
     return start_list
+
+def markdown_to_blocks(markdown):
+    list_of_strings = []
+
+    return list_of_strings
