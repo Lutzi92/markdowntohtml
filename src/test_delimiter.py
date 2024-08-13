@@ -10,7 +10,7 @@ from textnode import (
     text_type_link,
     text_node_to_html_node,
 )
-from split_delimiter import split_nodes_delimiter, extract_markdown_images,extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes
+from split_delimiter import split_nodes_delimiter, extract_markdown_images,extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes, markdown_to_blocks
 
 class test_delimiter(unittest.TestCase):
     def testcase1(self):
@@ -138,3 +138,49 @@ class test_splitLink(unittest.TestCase):
         )
     def test_text_to_testnode(self):
         print(text_to_textnodes("This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"))
+
+
+class TestMarkdownToHTML(unittest.TestCase):
+    def test_markdown_to_blocks(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with *italic* text and `code` here
+This is the same paragraph on a new line
+
+* This is a list
+* with items
+"""
+        blocks = markdown_to_blocks(md)
+        print(blocks)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with *italic* text and `code` here\nThis is the same paragraph on a new line",
+                "* This is a list\n* with items",
+            ],
+        )
+
+    def test_markdown_to_blocks_newlines(self):
+        md = """
+This is **bolded** paragraph
+
+
+
+
+This is another paragraph with *italic* text and `code` here
+This is the same paragraph on a new line
+
+* This is a list
+* with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with *italic* text and `code` here\nThis is the same paragraph on a new line",
+                "* This is a list\n* with items",
+            ],
+        )
