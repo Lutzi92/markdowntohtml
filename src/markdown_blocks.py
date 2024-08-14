@@ -4,6 +4,7 @@ block_type_code = "code"
 block_type_quote = "quote"
 block_type_olist = "ordered_list"
 block_type_ulist = "unordered_list"
+from htmlnode import LeafNode, HTMLNode, ParentNode
 
 def markdown_to_blocks(markdown):
     blocks = markdown.split("\n\n")
@@ -39,10 +40,46 @@ def block_to_block_type(block):
 
 def markdown_to_html_node(markdown):
     blocks = markdown_to_blocks(markdown)
+    nodes = []
     for block in blocks:
         blocktype = block_to_block_type(block)
+        block = block.replace("\n", "")
         if blocktype==block_type_paragraph:
-            pass
+            nodes.append(LeafNode("p",block,))
+            continue
+        if blocktype==block_type_code:
+            nodes.append(ParentNode("pre", [LeafNode("code",block, )]))
+            continue
+        if blocktype==block_type_olist:
+            nodes.append(ParentNode("li",[LeafNode("ol",block,)]))
+            continue        
+        if blocktype==block_type_ulist:
+            nodes.append(ParentNode("li",[LeafNode("ul",block)]))
+            continue
+        if blocktype==block_type_quote:
+            block = remove_code_md(block)
+            nodes.append(LeafNode("blockquote",block, ))
+            continue
+        if blocktype==block_type_heading:
+            if block.startswith("# "):
+                nodes.append(LeafNode("h1",blocks,))
+                continue
+            if block.startswith("## "):
+                nodes.append(LeafNode("h2",blocks,))
+                continue
+            if block.startswith("### "):
+                nodes.append(LeafNode("h3",blocks,))
+                continue
+            if block.startswith("#### "):
+                nodes.append(LeafNode("h4",blocks,))
+                continue
+            if block.startswith("##### "):
+                nodes.append(LeafNode("h5",blocks,))
+                continue
+            if block.startswith("###### "):
+                nodes.append(LeafNode("h6",blocks,))
+                continue
+    return ParentNode("div",nodes)
 
-
-    return None
+def remove_code_md(text):
+    return text.replace(">","").strip()
