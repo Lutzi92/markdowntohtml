@@ -36,3 +36,13 @@ def block_to_block_type(block):
         return block_type_olist
     else:
         return block_type_paragraph
+
+def markdown_to_html_node(markdown):
+    blocks = markdown_to_blocks(markdown)
+    for block in blocks:
+        blocktype = block_to_block_type(block)
+        if blocktype==block_type_paragraph:
+            pass
+
+
+    return None

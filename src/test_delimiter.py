@@ -146,8 +146,8 @@ class test_splitLink(unittest.TestCase):
             ],
             new_nodes,
         )
-    def test_text_to_testnode(self):
-        print(text_to_textnodes("This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"))
+    #def test_text_to_testnode(self):
+        #print(text_to_textnodes("This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"))
 
 
 class TestMarkdownToHTML(unittest.TestCase):
@@ -162,7 +162,7 @@ This is the same paragraph on a new line
 * with items
 """
         blocks = markdown_to_blocks(md)
-        print(blocks)
+        #print(blocks)
         self.assertEqual(
             blocks,
             [
@@ -205,7 +205,7 @@ This is the same paragraph on a new line
 * with items
 """
         blocks = markdown_to_blocks(md)
-        print(block_to_block_type(blocks[2]))
+        #print(block_to_block_type(blocks[2]))
 
     
     def test_block_to_block_types(self):
