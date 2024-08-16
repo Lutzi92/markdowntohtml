@@ -62,24 +62,32 @@ def markdown_to_html_node(markdown):
             continue
         if blocktype==block_type_heading:
             if block.startswith("# "):
-                nodes.append(LeafNode("h1",blocks,))
+                block = remove_header("# ", block)
+                nodes.append(LeafNode("h1",block,))
                 continue
             if block.startswith("## "):
-                nodes.append(LeafNode("h2",blocks,))
+                block = remove_header("## ", block)
+                nodes.append(LeafNode("h2",block,))
                 continue
             if block.startswith("### "):
-                nodes.append(LeafNode("h3",blocks,))
+                block = remove_header("### ", block)
+                nodes.append(LeafNode("h3",block,))
                 continue
             if block.startswith("#### "):
-                nodes.append(LeafNode("h4",blocks,))
+                block = remove_header("#### ", block)
+                nodes.append(LeafNode("h4",block,))
                 continue
             if block.startswith("##### "):
-                nodes.append(LeafNode("h5",blocks,))
+                block = remove_header("##### ", block)
+                nodes.append(LeafNode("h5",block,))
                 continue
             if block.startswith("###### "):
-                nodes.append(LeafNode("h6",blocks,))
+                block = remove_header("###### ", block)
+                nodes.append(LeafNode("h6",block,))
                 continue
     return ParentNode("div",nodes)
 
 def remove_code_md(text):
     return text.replace(">","").strip()
+def remove_header(delimiter, text):
+    return text.replace(delimiter, "")
