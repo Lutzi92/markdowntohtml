@@ -1,0 +1,62 @@
+def markdown_to_html_node(markdown):
+    blocks = markdown_to_blocks(markdown)
+    nodes = []
+    for block in blocks:
+        blocktype = block_to_block_type(block)
+        block = block.replace("\n", "")
+        if blocktype==block_type_paragraph:
+            nodes.append(LeafNode("p",block,))
+            continue
+        if blocktype==block_type_code:
+            nodes.append(ParentNode("pre", [LeafNode("code",block, )]))
+            continue
+        if blocktype==block_type_olist:
+            nodes.append(ParentNode("li",[LeafNode("ol",block,)]))
+            continue        
+        if blocktype==block_type_ulist:
+            block = turn_text_in_ulist(block)
+            nodes.append(ParentNode("li",block))
+            continue
+        if blocktype==block_type_quote:
+            block = remove_code_md(block)
+            nodes.append(LeafNode("blockquote",block, ))
+            continue
+        if blocktype==block_type_heading:
+            if block.startswith("# "):
+                block = remove_header("# ", block)
+                nodes.append(LeafNode("h1",block,))
+                continue
+            if block.startswith("## "):
+                block = remove_header("## ", block)
+                nodes.append(LeafNode("h2",block,))
+                continue
+            if block.startswith("### "):
+                block = remove_header("### ", block)
+                nodes.append(LeafNode("h3",block,))
+                continue
+            if block.startswith("#### "):
+                block = remove_header("#### ", block)
+                nodes.append(LeafNode("h4",block,))
+                continue
+            if block.startswith("##### "):
+                block = remove_header("##### ", block)
+                nodes.append(LeafNode("h5",block,))
+                continue
+            if block.startswith("###### "):
+                block = remove_header("###### ", block)
+                nodes.append(LeafNode("h6",block,))
+                continue
+    return ParentNode("div",nodes)
+
+def remove_code_md(text):
+    return text.replace(">","").strip()
+def remove_header(delimiter, text):
+    return text.replace(delimiter, "")
+def turn_text_in_ulist(text):
+
+    ulist = []
+    split_ulist = text.split("- ")
+    for item in split_ulist:
+        if not item=="":
+            ulist.append(LeafNode("ul",item,))
+    return ulist
