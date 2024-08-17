@@ -143,3 +143,4 @@ def extract_title(markdown):
     for block in blocks:
         if block.startswith("# "):
             return block.lstrip("# ")
+    raise Exception("Kein Titel vorhanden")
